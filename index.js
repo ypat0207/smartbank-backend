@@ -3,18 +3,18 @@ const { Pool } = require("pg");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Use process.env to access environment variables directly (no need for dotenv)
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+  host: process.env.DB_HOST,         // Provided by Railway or other hosting platforms
+  user: process.env.DB_USER,         // Provided by Railway or other hosting platforms
+  password: process.env.DB_PASSWORD, // Provided by Railway or other hosting platforms
+  database: process.env.DB_NAME,     // Provided by Railway or other hosting platforms
+  port: process.env.DB_PORT,         // Provided by Railway or other hosting platforms
 });
 
 // Middleware to authenticate JWT
@@ -173,6 +173,7 @@ app.get("/api/insights", authenticateToken, async (req, res) => {
   });
 });
 
+// Start the server
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`)
 );
